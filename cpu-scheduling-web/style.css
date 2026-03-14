@@ -1,0 +1,79 @@
+body{
+margin:0;
+font-family:Segoe UI;
+background:linear-gradient(135deg,#1f3b52,#0f172a);
+height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+color:white;
+}
+
+.title{
+position:absolute;
+top:40px;
+font-size:34px;
+font-weight:600;
+}
+
+.card{
+width:420px;
+padding:40px;
+border-radius:20px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(15px);
+box-shadow:0 0 25px rgba(0,0,0,0.5);
+text-align:center;
+}
+
+.card h2{
+margin-bottom:25px;
+font-size:26px;
+}
+
+.option{
+display:flex;
+align-items:center;
+background:rgba(255,255,255,0.15);
+padding:15px;
+border-radius:15px;
+margin:15px 0;
+transition:0.3s;
+}
+
+.option:hover{
+background:rgba(255,255,255,0.25);
+}
+
+.option input{
+margin-right:15px;
+transform:scale(1.5);
+}
+
+.text h3{
+margin:0;
+font-size:18px;
+}
+
+.text p{
+margin:5px 0 0;
+font-size:14px;
+opacity:0.8;
+}
+
+.next-btn{
+margin-top:25px;
+padding:12px 40px;
+border:none;
+border-radius:25px;
+background:linear-gradient(90deg,#3b82f6,#22c55e);
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.next-btn:hover{
+transform:scale(1.05);
+}
