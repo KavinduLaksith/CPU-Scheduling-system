@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CPU Scheduling Simulator</title>
+<link rel="stylesheet" href="comparison.css">
+</head>
+
+<body>
+
+<h1 class="title">CPU Scheduling Simulator</h1>
+
+<div class="dashboard">
+
+<!-- PROCESS INPUT -->
+<div class="panel">
+
+<h3>Process Input Table</h3>
+
+<input id="pid" placeholder="PID">
+<input id="arrival" placeholder="Arrival Time">
+<input id="burst" placeholder="Burst Time">
+<input id="priority" placeholder="Priority">
+
+<button onclick="addProcess()">+ Add Process</button>
+
+<table id="processTable">
+
+<tr>
+<th>PID</th>
+<th>Arrival</th>
+<th>Burst</th>
+<th>Priority</th>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- ALGORITHM SELECTION -->
+<div class="algorithm-card">
+    <h3 class="panel-title">Select Algorithm <span class="help-icon">?</span></h3>
+    <div class="divider"></div>
+
+    <div class="algo-options">
+        <label class="algo-item">
+            <input type="radio" name="algorithm" value="fcfs" checked>
+            <span class="custom-radio"></span>
+            <span class="algo-name">FCFS</span>
+            <div class="algo-preview fcfs-preview"></div>
+        </label>
+
+        <label class="algo-item">
+            <input type="radio" name="algorithm" value="sjf">
+            <span class="custom-radio"></span>
+            <span class="algo-name">SJF</span>
+            <div class="algo-preview sjf-preview"></div>
+        </label>
+
+        <label class="algo-item">
+            <input type="radio" name="algorithm" value="srtn">
+            <span class="custom-radio"></span>
+            <span class="algo-name">SRTN</span>
+            <div class="algo-preview srtn-preview"></div>
+        </label>
+
+        <label class="algo-item">
+            <input type="radio" name="algorithm" value="priority">
+            <span class="custom-radio"></span>
+            <span class="algo-name">Priority</span>
+            <div class="algo-preview priority-preview"></div>
+        </label>
+
+        <label class="algo-item">
+            <input type="radio" name="algorithm" value="rr">
+            <span class="custom-radio"></span>
+            <span class="algo-name">Round Robin</span>
+            <div class="algo-preview rr-preview"></div>
+        </label>
+    </div>
+</div>
+
+
+<!-- CONFIGURATION -->
+<div class="panel config">
+
+<h3>Configuration</h3>
+
+<label>Time Quantum</label>
+<input id="quantum" value="2">
+
+<button class="run-btn" onclick="runComparison()">
+RUN COMPARISON
+</button>
+
+</div>
+
+<div id="resultSection" class="result-section">
+
+<h2>Simulation Results</h2>
+
+<div class="result-grid">
+
+<div class="panel">
+
+<h3>Gantt Chart</h3>
+<div id="ganttChart"></div>
+
+</div>
+
+<div class="panel">
+
+<h3>Performance Metrics</h3>
+
+<table id="resultTable">
+
+<tr>
+<th>PID</th>
+<th>Completion</th>
+<th>TAT</th>
+<th>WT</th>
+</tr>
+
+</table>
+
+</div>
+
+<div class="panel">
+
+<h3>Execution Summary</h3>
+
+<p id="algorithmName"></p>
+<p id="avgTat"></p>
+<p id="avgWt"></p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="comparison.js"></script>
+
+</body>
+</html>
