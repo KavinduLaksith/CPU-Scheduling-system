@@ -199,51 +199,57 @@ avgWt:totalWt/processes.length
 
 function roundRobin(processes, quantum, policy){
 
-let time=0
-let queue=[]
-let gantt=[]
-let results=[]
-let remaining={}
+let time = 0
+let queue = []
+let gantt = []
+let results = []
+let remaining = {}
+
+let totalTat = 0
+let totalWt = 0
 
 processes.forEach(p=>{
-remaining[p.pid]=p.burst
+remaining[p.pid] = p.burst
 })
 
 processes.sort((a,b)=>a.arrival-b.arrival)
 
-let i=0
+let i = 0
 
 while(true){
 
-while(i<processes.length && processes[i].arrival<=time){
+while(i < processes.length && processes[i].arrival <= time){
 queue.push(processes[i])
 i++
 }
 
-if(queue.length===0){
+if(queue.length === 0){
 
-if(i>=processes.length) break
+if(i >= processes.length) break
 
 time++
 continue
-
 }
 
-if(policy==="sjf"){
-queue.sort((a,b)=>remaining[a.pid]-remaining[b.pid])
+if(policy === "sjf"){
+queue.sort((a,b)=>a.burst - b.burst)
 }
 
-if(policy==="priorityLow"){
-queue.sort((a,b)=>a.priority-b.priority)
+if(policy === "srtf"){
+queue.sort((a,b)=>remaining[a.pid] - remaining[b.pid])
 }
 
-if(policy==="priorityHigh"){
-queue.sort((a,b)=>b.priority-a.priority)
+if(policy === "priorityLow"){
+queue.sort((a,b)=>a.priority - b.priority)
 }
 
-let p=queue.shift()
+if(policy === "priorityHigh"){
+queue.sort((a,b)=>b.priority - a.priority)
+}
 
-let run=Math.min(quantum,remaining[p.pid])
+let p = queue.shift()
+
+let run = Math.min(quantum, remaining[p.pid])
 
 gantt.push({
 pid:p.pid,
@@ -251,24 +257,24 @@ start:time,
 end:time+run
 })
 
-time+=run
-remaining[p.pid]-=run
+time += run
+remaining[p.pid] -= run
 
-while(i<processes.length && processes[i].arrival<=time){
+while(i < processes.length && processes[i].arrival <= time){
 queue.push(processes[i])
 i++
 }
 
-if(remaining[p.pid]>0){
+if(remaining[p.pid] > 0){
 
 queue.push(p)
 
 }
 else{
 
-let completion=time
-let tat=completion-p.arrival
-let wt=tat-p.burst
+let completion = time
+let tat = completion - p.arrival
+let wt = tat - p.burst
 
 results.push({
 pid:p.pid,
@@ -277,11 +283,19 @@ tat:tat,
 wt:wt
 })
 
-}
+totalTat += tat
+totalWt += wt
 
 }
 
-return {results,gantt}
+}
+
+return {
+results:results,
+gantt:gantt,
+avgTat: totalTat / processes.length,
+avgWt: totalWt / processes.length
+}
 
 }
 
