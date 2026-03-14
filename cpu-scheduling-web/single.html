@@ -2,27 +2,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>CPU Scheduling Simulator</title>
-<link rel="stylesheet" href="comparison.css">
+<title>Single Scheduling</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1 class="title">CPU Scheduling Simulator</h1>
+<h1>CPU Scheduling Simulator</h1>
 
-<div class="dashboard">
-
-<!-- PROCESS INPUT -->
 <div class="panel">
-
-<h3>Process Input Table</h3>
 
 <input id="pid" placeholder="PID">
 <input id="arrival" placeholder="Arrival Time">
 <input id="burst" placeholder="Burst Time">
 <input id="priority" placeholder="Priority">
 
-<button onclick="addProcess()">+ Add Process</button>
+<button onclick="addProcess()">Add Process</button>
 
 <table id="processTable">
 
@@ -37,81 +32,53 @@
 
 </div>
 
+<div class="panel">
 
-<!-- ALGORITHM SELECTION -->
-<div class="algorithm-card">
-    <h3 class="panel-title">Select Algorithm <span class="help-icon">?</span></h3>
-    <div class="divider"></div>
+<label>Main Algorithm</label>
 
-    <div class="algo-options">
-        <label class="algo-item">
-            <input type="radio" name="algorithm" value="fcfs" checked>
-            <span class="custom-radio"></span>
-            <span class="algo-name">FCFS</span>
-            <div class="algo-preview fcfs-preview"></div>
-        </label>
+<select id="algorithm">
+<option value="fcfs">FCFS</option>
+<option value="sjf">SJF</option>
+<option value="priority">Priority</option>
+<option value="rr">Round Robin</option>
+</select>
+<br><br>
+<label>Priority Type</label>
 
-        <label class="algo-item">
-            <input type="radio" name="algorithm" value="sjf">
-            <span class="custom-radio"></span>
-            <span class="algo-name">SJF</span>
-            <div class="algo-preview sjf-preview"></div>
-        </label>
+<select id="priorityType">
+<option value="low">Lower Number = Higher Priority</option>
+<option value="high">Higher Number = Higher Priority</option>
+</select>
 
-        <label class="algo-item">
-            <input type="radio" name="algorithm" value="srtn">
-            <span class="custom-radio"></span>
-            <span class="algo-name">SRTN</span>
-            <div class="algo-preview srtn-preview"></div>
-        </label>
+<br><br>
 
-        <label class="algo-item">
-            <input type="radio" name="algorithm" value="priority">
-            <span class="custom-radio"></span>
-            <span class="algo-name">Priority</span>
-            <div class="algo-preview priority-preview"></div>
-        </label>
+<label>Round Robin Queue Policy</label>
 
-        <label class="algo-item">
-            <input type="radio" name="algorithm" value="rr">
-            <span class="custom-radio"></span>
-            <span class="algo-name">Round Robin</span>
-            <div class="algo-preview rr-preview"></div>
-        </label>
-    </div>
-</div>
+<select id="rrPolicy">
+<option value="fcfs">FCFS</option>
+<option value="sjf">SJF</option>
+<option value="srtf">SRTF</option>
+<option value="priorityLow">Priority (Low value higher)</option>
+<option value="priorityHigh">Priority (High value higher)</option>
+</select>
 
-
-<!-- CONFIGURATION -->
-<div class="panel config">
-
-<h3>Configuration</h3>
+<br><br>
 
 <label>Time Quantum</label>
 <input id="quantum" value="2">
 
-<button class="run-btn" onclick="runComparison()">
-RUN COMPARISON
-</button>
+<button onclick="run()">Run Simulation</button>
 
 </div>
-
-<div id="resultSection" class="result-section">
-
-<h2>Simulation Results</h2>
-
-<div class="result-grid">
 
 <div class="panel">
 
 <h3>Gantt Chart</h3>
-<div id="ganttChart"></div>
+<div id="ganttChart" class="gantt"></div>
 
 </div>
 
 <div class="panel">
-
-<h3>Performance Metrics</h3>
 
 <table id="resultTable">
 
@@ -124,25 +91,12 @@ RUN COMPARISON
 
 </table>
 
-</div>
-
-<div class="panel">
-
-<h3>Execution Summary</h3>
-
-<p id="algorithmName"></p>
 <p id="avgTat"></p>
 <p id="avgWt"></p>
 
 </div>
 
-</div>
-
-</div>
-
-</div>
-
-<script src="comparison.js"></script>
+<script src="scheduler.js"></script>
 
 </body>
 </html>
