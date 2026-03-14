@@ -1,0 +1,177 @@
+body{
+margin:0;
+font-family:Segoe UI;
+background:linear-gradient(135deg,#243949,#517fa4);
+color:white;
+}
+
+.title{
+text-align:center;
+margin-top:30px;
+font-size:32px;
+}
+
+.dashboard{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:25px;
+padding:40px;
+}
+
+.panel{
+background:rgba(255,255,255,0.2);
+backdrop-filter:blur(15px);
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+.panel h3{
+margin-top:0;
+}
+
+input{
+display:block;
+margin:10px 0;
+padding:8px;
+width:100%;
+border:none;
+border-radius:6px;
+}
+
+button{
+padding:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#3b82f6;
+color:white;
+margin-top:10px;
+}
+
+table{
+width:100%;
+margin-top:10px;
+border-collapse:collapse;
+}
+
+th,td{
+border:1px solid white;
+padding:8px;
+text-align:center;
+}
+
+.config{
+text-align:center;
+}
+
+.run-btn{
+background:linear-gradient(90deg,#06b6d4,#8b5cf6);
+font-size:16px;
+padding:15px;
+margin-top:20px;
+}
+:root {
+    --bg-dark: #2c3e50;
+    --panel-bg: rgba(255, 255, 255, 0.05);
+    --glow-blue: #00d2ff;
+}
+
+body {
+    background-color: #1a2634; /* Dark background */
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+}
+
+.algorithm-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    width: 350px;
+}
+
+.algo-item {
+    display: flex;
+    align-items: center;
+    background: var(--panel-bg);
+    margin-bottom: 12px;
+    padding: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 1px solid transparent;
+}
+
+/* The actual radio button (hidden) */
+.algo-item input {
+    display: none;
+}
+
+/* Custom Checkbox Look */
+.custom-radio {
+    width: 22px;
+    height: 22px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    margin-right: 15px;
+    position: relative;
+    transition: 0.3s;
+}
+
+/* Blue Glow when checked */
+.algo-item input:checked + .custom-radio {
+    background-color: var(--glow-blue);
+    border-color: var(--glow-blue);
+    box-shadow: 0 0 15px var(--glow-blue);
+}
+
+/* Checkmark tick */
+.algo-item input:checked + .custom-radio::after {
+    content: "✓";
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+}
+
+.algo-name {
+    font-size: 1.2rem;
+    flex-grow: 1;
+}
+
+/* Placeholder for your algorithm images */
+.algo-preview {
+    width: 60px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.result-section{
+margin-top:40px;
+padding:30px;
+}
+
+.result-grid{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:20px;
+}
+
+#ganttChart{
+display:flex;
+gap:5px;
+margin-top:20px;
+}
+
+.gantt-block{
+padding:10px 20px;
+background:#3b82f6;
+border-radius:6px;
+color:white;
+}
