@@ -2,27 +2,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>CPU Scheduling Simulator</title>
-<link rel="stylesheet" href="comparison.css">
+<title>Comparison Mode</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1 class="title">CPU Scheduling Simulator</h1>
+<h1>Algorithm Comparison</h1>
 
-<div class="dashboard">
-
-<!-- PROCESS INPUT -->
 <div class="panel">
 
-<h3>Process Input Table</h3>
-
 <input id="pid" placeholder="PID">
-<input id="arrival" placeholder="Arrival Time">
-<input id="burst" placeholder="Burst Time">
+<input id="arrival" placeholder="Arrival">
+<input id="burst" placeholder="Burst">
 <input id="priority" placeholder="Priority">
 
-<button onclick="addProcess()">+ Add Process</button>
+<button onclick="addProcess()">Add Process</button>
 
 <table id="processTable">
 
@@ -37,67 +32,23 @@
 
 </div>
 
+<div class="panel">
 
-<div class="algorithm-card">
-    <h3 class="panel-title">Select Algorithm <span class="help-icon">?</span></h3>
-    <div class="divider"></div>
+<label><input type="checkbox" value="fcfs" checked> FCFS</label>
+<label><input type="checkbox" value="sjf"> SJF</label>
+<label><input type="checkbox" value="priority"> Priority</label>
+<label><input type="checkbox" value="rr"> Round Robin</label>
 
-    <div class="algo-options">
-        <label class="algo-item">
-            <input type="radio" name="algorithm" value="fcfs" checked>
-            <span class="custom-radio"></span>
-            <span class="algo-name">FCFS</span>
-            <div class="algo-preview fcfs-preview"></div>
-        </label>
-
-        <label class="algo-item">
-            <input type="checkbox" name="algorithm" value="sjf">
-            <span class="custom-radio"></span>
-            <span class="algo-name">SJF</span>
-            <div class="algo-preview sjf-preview"></div>
-        </label>
-
-        <label class="algo-item">
-            <input type="checkbox" name="algorithm" value="srtn">
-            <span class="custom-radio"></span>
-            <span class="algo-name">SRTN</span>
-            <div class="algo-preview srtn-preview"></div>
-        </label>
-
-        <label class="algo-item">
-            <input type="checkbox" name="algorithm" value="priority">
-            <span class="custom-radio"></span>
-            <span class="algo-name">Priority</span>
-            <div class="algo-preview priority-preview"></div>
-        </label>
-
-        <label class="algo-item">
-            <input type="checkbox" name="algorithm" value="rr">
-            <span class="custom-radio"></span>
-            <span class="algo-name">Round Robin</span>
-            <div class="algo-preview rr-preview"></div>
-        </label>
-    </div>
-</div>
-
-
-<!-- CONFIGURATION -->
-<div class="panel config">
-
-<h3>Configuration</h3>
-
-<label>Time Quantum</label>
+<label>Quantum</label>
 <input id="quantum" value="2">
 
-<button class="run-btn" onclick="runComparison()">
-RUN COMPARISON
-</button>
+<button onclick="runComparison()">Run Comparison</button>
 
 </div>
 
-</div>
+<div id="comparisonResults"></div>
 
-<script src="comparison.js"></script>
+<script src="scheduler.js"></script>
 
 </body>
 </html>
