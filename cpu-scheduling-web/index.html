@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Scheduling Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="background"></div>
+
+<h1 class="title">CPU Scheduling Simulator</h1>
+
+<div class="card">
+    <h2>Choose Mode</h2>
+
+    <label class="option">
+        <input type="radio" name="mode" value="comparison">
+        <div class="text">
+            <h3>Comparison Mode</h3>
+            <p>Analyze performance metrics of multiple algorithms simultaneously.</p>
+        </div>
+    </label>
+
+    <label class="option">
+        <input type="radio" name="mode" value="single" checked>
+        <div class="text">
+            <h3>Single Scheduling Mode</h3>
+            <p>Focus on simulating and fine-tuning a single algorithm simultaneously.</p>
+        </div>
+    </label>
+
+    <button class="next-btn" onclick="goNext()">Next &rarr;</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
