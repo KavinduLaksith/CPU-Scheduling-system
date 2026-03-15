@@ -11,6 +11,8 @@
 <button onclick="goBack()" class="back-btn">⬅ Back</button>
 
 <h1>CPU Scheduling Algorithm Comparison</h1>
+<br><br>
+<br><br>
 
 <!-- INPUT SECTION -->
 
@@ -61,17 +63,88 @@
 
 <div class="panel">
 
-<h3>Select Algorithms</h3>
+<h2 class="algo-title">Select Algorithms</h2>
 
-<label><input type="checkbox" value="fcfs" checked> FCFS</label>
-<label><input type="checkbox" value="sjf"> SJF</label>
-<label><input type="checkbox" value="priority-L"> Priority(Low Value higher)</label>
-<label><input type="checkbox" value="priority-L"> Priority(High Value higher)</label>
-<label><input type="checkbox" value="rr"> Round Robin</label>
+<div class="algo-grid">
+
+<label class="algo-card">
+<input type="checkbox" value="fcfs" checked>
+<div class="algo-box">
+<h3>FCFS</h3>
+<p>First Come First Serve</p>
+</div>
+</label>
+
+<label class="algo-card">
+<input type="checkbox" value="sjf">
+<div class="algo-box">
+<h3>SJF</h3>
+<p>Shortest Job First</p>
+</div>
+</label>
+
+<label class="algo-card">
+<input type="checkbox" value="priorityLow">
+<div class="algo-box">
+<h3>Priority (Low)</h3>
+<p>Lower value = higher priority</p>
+</div>
+</label>
+
+<label class="algo-card">
+<input type="checkbox" value="priorityHigh">
+<div class="algo-box">
+<h3>Priority (High)</h3>
+<p>Higher value = higher priority</p>
+</div>
+</label>
+
+<label class="algo-card">
+<input type="checkbox" value="rr_fcfs">
+<div class="algo-box">
+<h3>RR + FCFS</h3>
+<p>Round Robin FCFS</p>
+</div>
+</label>
+
+<label class="algo-card">
+<input type="checkbox" value="rr_sjf">
+<div class="algo-box">
+<h3>RR + SJF</h3>
+<p>Round Robin SJF</p>
+</div>
+</label>
+
+<label class="algo-card">
+<input type="checkbox" value="rr_srtf">
+<div class="algo-box">
+<h3>RR + SRTF</h3>
+<p>Round Robin SRTF</p>
+</div>
+</label>
+
+<label class="algo-card">
+<input type="checkbox" value="rr_priorityLow">
+<div class="algo-box">
+<h3>RR+Priority(Low)</h3>
+<p>Round Robin Priority(Low)</p>
+</div>
+</label>
+
+<label class="algo-card">
+<input type="checkbox" value="rr_priorityHigh">
+<div class="algo-box">
+<h3>RR+Priority(High)</h3>
+<p>Round Robin Priority(High)</p>
+</div>
+</label>
+
+</div>
 
 <br><br>
 
 <label>Time Quantum</label>
+<br><br>
 <input id="quantum" value="2">
 
 <br><br>
