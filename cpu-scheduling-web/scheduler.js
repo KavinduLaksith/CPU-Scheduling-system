@@ -1,3 +1,31 @@
+const inputs = [
+document.getElementById("pid"),
+document.getElementById("arrival"),
+document.getElementById("burst"),
+document.getElementById("priority")
+];
+
+inputs.forEach((input,index)=>{
+
+input.addEventListener("keydown",function(e){
+
+if(e.key==="Enter"){
+
+e.preventDefault()
+
+if(index < inputs.length-1){
+inputs[index+1].focus()
+}
+else{
+addProcess()
+}
+
+}
+
+})
+
+})
+
 function addProcess(){
 
 let table=document.getElementById("processTable")
@@ -13,6 +41,26 @@ row.insertCell(0).innerText=pid
 row.insertCell(1).innerText=arrival
 row.insertCell(2).innerText=burst
 row.insertCell(3).innerText=priority
+
+/* delete button */
+
+let action=row.insertCell(4)
+
+let btn=document.createElement("button")
+btn.innerText="Delete"
+
+btn.onclick=function(){
+table.deleteRow(row.rowIndex)
+}
+
+action.appendChild(btn)
+
+/* clear inputs */
+
+document.getElementById("pid").value=""
+document.getElementById("arrival").value=""
+document.getElementById("burst").value=""
+document.getElementById("priority").value=""
 
 }
 
@@ -45,16 +93,48 @@ if(!chart) return
 
 chart.innerHTML=""
 
-gantt.forEach(g=>{
+let blockRow=document.createElement("div")
+blockRow.className="gantt-row"
+
+let timeRow=document.createElement("div")
+timeRow.className="gantt-time"
+
+gantt.forEach((g,i)=>{
+
+let duration = g.end - g.start
+let width = duration * 60
+
+/* BLOCK */
 
 let block=document.createElement("div")
-
 block.className="gantt-block"
-block.innerHTML=g.pid+"<br>"+g.start+"-"+g.end
+block.innerText=g.pid
+block.style.width = width + "px"
 
-chart.appendChild(block)
+blockRow.appendChild(block)
+
+/* START TIME */
+
+if(i===0){
+
+let start=document.createElement("span")
+start.innerText=g.start
+timeRow.appendChild(start)
+
+}
+
+/* END TIME */
+
+let end=document.createElement("span")
+end.innerText=g.end
+end.style.marginLeft=(width-10)+"px"
+
+timeRow.appendChild(end)
 
 })
+
+chart.appendChild(blockRow)
+chart.appendChild(timeRow)
 
 }
 
@@ -351,6 +431,8 @@ let container=document.getElementById("comparisonResults")
 
 container.innerHTML=""
 
+let quantum=parseInt(document.getElementById("quantum").value)
+
 checks.forEach(c=>{
 
 let algo=c.value
@@ -359,11 +441,35 @@ let result
 if(algo==="fcfs") result=fcfs([...processes])
 if(algo==="sjf") result=sjf([...processes])
 if(algo==="priority") result=priorityScheduling([...processes])
-if(algo==="rr") result=roundRobin([...processes],2)
+if(algo==="rr") result=roundRobin([...processes],quantum)
 
 let div=document.createElement("div")
+div.className="panel"
 
 div.innerHTML="<h3>"+algo.toUpperCase()+"</h3>"
+
+/* Gantt Chart */
+
+let ganttDiv=document.createElement("div")
+ganttDiv.className="gantt-row"
+
+result.gantt.forEach(g=>{
+
+let block=document.createElement("div")
+
+let duration=g.end-g.start
+
+block.className="gantt-block"
+block.innerText=g.pid
+block.style.width=(duration*50)+"px"
+
+ganttDiv.appendChild(block)
+
+})
+
+div.appendChild(ganttDiv)
+
+/* Results Table */
 
 let table=document.createElement("table")
 
@@ -382,8 +488,20 @@ row.insertCell(3).innerText=r.wt
 
 div.appendChild(table)
 
+/* Average values */
+
+let avg=document.createElement("p")
+
+avg.innerText="Average TAT: "+result.avgTat.toFixed(2)+" | Average WT: "+result.avgWt.toFixed(2)
+
+div.appendChild(avg)
+
 container.appendChild(div)
 
 })
 
+}
+
+function goBack(){
+window.location="index.html"
 }
