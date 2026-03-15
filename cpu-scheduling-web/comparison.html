@@ -2,22 +2,48 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Comparison Mode</title>
+<title>Algorithm Comparison</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>Algorithm Comparison</h1>
+<button onclick="goBack()" class="back-btn">⬅ Back</button>
 
-<div class="panel">
+<h1>CPU Scheduling Algorithm Comparison</h1>
 
-<input id="pid" placeholder="PID">
-<input id="arrival" placeholder="Arrival">
-<input id="burst" placeholder="Burst">
-<input id="priority" placeholder="Priority">
+<!-- INPUT SECTION -->
 
+<div class="input-row">
+
+<div class="input-group">
+<label>PID</label>
+<input id="pid" placeholder="P1">
+</div>
+
+<div class="input-group">
+<label>Arrival Time</label>
+<input id="arrival" placeholder="0">
+</div>
+
+<div class="input-group">
+<label>Burst Time</label>
+<input id="burst" placeholder="5">
+</div>
+
+<div class="input-group">
+<label>Priority</label>
+<input id="priority" placeholder="1">
+</div>
+
+<div class="input-group">
+<label>&nbsp;</label>
 <button onclick="addProcess()">Add Process</button>
+</div>
+
+</div>
+
+<!-- PROCESS TABLE -->
 
 <table id="processTable">
 
@@ -26,29 +52,53 @@
 <th>Arrival</th>
 <th>Burst</th>
 <th>Priority</th>
+<th>Action</th>
 </tr>
 
 </table>
 
-</div>
+<!-- ALGORITHM SELECTION -->
 
 <div class="panel">
 
+<h3>Select Algorithms</h3>
+
 <label><input type="checkbox" value="fcfs" checked> FCFS</label>
 <label><input type="checkbox" value="sjf"> SJF</label>
-<label><input type="checkbox" value="priority"> Priority</label>
+<label><input type="checkbox" value="priority-L"> Priority(Low Value higher)</label>
+<label><input type="checkbox" value="priority-L"> Priority(High Value higher)</label>
 <label><input type="checkbox" value="rr"> Round Robin</label>
 
-<label>Quantum</label>
+<br><br>
+
+<label>Time Quantum</label>
 <input id="quantum" value="2">
+
+<br><br>
 
 <button onclick="runComparison()">Run Comparison</button>
 
 </div>
 
+<!-- RESULTS -->
+
+<div class="panel">
+
+<h3>Comparison Results</h3>
+
 <div id="comparisonResults"></div>
 
+</div>
+
 <script src="scheduler.js"></script>
+
+<script>
+
+function goBack(){
+window.location="index.html"
+}
+
+</script>
 
 </body>
 </html>
