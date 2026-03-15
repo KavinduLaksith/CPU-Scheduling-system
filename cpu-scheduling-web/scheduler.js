@@ -42,8 +42,6 @@ row.insertCell(1).innerText=arrival
 row.insertCell(2).innerText=burst
 row.insertCell(3).innerText=priority
 
-/* delete button */
-
 let action=row.insertCell(4)
 
 let btn=document.createElement("button")
@@ -54,8 +52,6 @@ table.deleteRow(row.rowIndex)
 }
 
 action.appendChild(btn)
-
-/* clear inputs */
 
 document.getElementById("pid").value=""
 document.getElementById("arrival").value=""
@@ -85,6 +81,8 @@ priority:parseInt(c[3].innerText)
 return processes
 
 }
+
+/* ---------------- GANTT ---------------- */
 
 function drawGantt(gantt){
 
@@ -123,8 +121,6 @@ timeRow.appendChild(start)
 
 }
 
-/* END TIME */
-
 let end=document.createElement("span")
 end.innerText=g.end
 end.style.marginLeft=(width-10)+"px"
@@ -137,6 +133,8 @@ chart.appendChild(blockRow)
 chart.appendChild(timeRow)
 
 }
+
+/* ---------------- FCFS ---------------- */
 
 function fcfs(processes){
 
@@ -173,6 +171,8 @@ time=end
 return {results,gantt,avgTat:totalTat/processes.length,avgWt:totalWt/processes.length}
 
 }
+
+/* ---------------- SJF ---------------- */
 
 function sjf(processes){
 
@@ -219,7 +219,9 @@ return {results,gantt,avgTat:totalTat/processes.length,avgWt:totalWt/processes.l
 
 }
 
-function priorityScheduling(processes){
+/* ---------------- PRIORITY ---------------- */
+
+function priorityScheduling(processes,type){
 
 let time=0
 let completed=[]
@@ -227,8 +229,6 @@ let results=[]
 let gantt=[]
 let totalTat=0
 let totalWt=0
-
-let type=document.getElementById("priorityType").value
 
 while(completed.length < processes.length){
 
@@ -240,11 +240,10 @@ continue
 }
 
 if(type==="low"){
-ready.sort((a,b)=>a.priority - b.priority)
+ready.sort((a,b)=>a.priority-b.priority)
 }
-
 else{
-ready.sort((a,b)=>b.priority - a.priority)
+ready.sort((a,b)=>b.priority-a.priority)
 }
 
 let p=ready[0]
@@ -268,116 +267,94 @@ completed.push(p.pid)
 
 }
 
-return {
-results:results,
-gantt:gantt,
-avgTat:totalTat/processes.length,
-avgWt:totalWt/processes.length
-}
+return {results,gantt,avgTat:totalTat/processes.length,avgWt:totalWt/processes.length}
 
 }
+
+/* ---------------- ROUND ROBIN ---------------- */
 
 function roundRobin(processes, quantum, policy){
 
-let time = 0
-let queue = []
-let gantt = []
-let results = []
-let remaining = {}
-
-let totalTat = 0
-let totalWt = 0
+let time=0
+let queue=[]
+let gantt=[]
+let results=[]
+let remaining={}
+let totalTat=0
+let totalWt=0
 
 processes.forEach(p=>{
-remaining[p.pid] = p.burst
+remaining[p.pid]=p.burst
 })
 
 processes.sort((a,b)=>a.arrival-b.arrival)
 
-let i = 0
+let i=0
 
 while(true){
 
-while(i < processes.length && processes[i].arrival <= time){
+while(i<processes.length && processes[i].arrival<=time){
 queue.push(processes[i])
 i++
 }
 
-if(queue.length === 0){
+if(queue.length===0){
 
-if(i >= processes.length) break
+if(i>=processes.length) break
 
 time++
 continue
 }
 
-if(policy === "sjf"){
-queue.sort((a,b)=>a.burst - b.burst)
+if(policy==="sjf"){
+queue.sort((a,b)=>a.burst-b.burst)
 }
 
-if(policy === "srtf"){
-queue.sort((a,b)=>remaining[a.pid] - remaining[b.pid])
+if(policy==="priorityLow"){
+queue.sort((a,b)=>a.priority-b.priority)
 }
 
-if(policy === "priorityLow"){
-queue.sort((a,b)=>a.priority - b.priority)
+if(policy==="priorityHigh"){
+queue.sort((a,b)=>b.priority-a.priority)
 }
 
-if(policy === "priorityHigh"){
-queue.sort((a,b)=>b.priority - a.priority)
-}
+let p=queue.shift()
 
-let p = queue.shift()
+let run=Math.min(quantum,remaining[p.pid])
 
-let run = Math.min(quantum, remaining[p.pid])
+gantt.push({pid:p.pid,start:time,end:time+run})
 
-gantt.push({
-pid:p.pid,
-start:time,
-end:time+run
-})
+time+=run
+remaining[p.pid]-=run
 
-time += run
-remaining[p.pid] -= run
-
-while(i < processes.length && processes[i].arrival <= time){
+while(i<processes.length && processes[i].arrival<=time){
 queue.push(processes[i])
 i++
 }
 
-if(remaining[p.pid] > 0){
-
+if(remaining[p.pid]>0){
 queue.push(p)
-
 }
 else{
 
-let completion = time
-let tat = completion - p.arrival
-let wt = tat - p.burst
+let completion=time
+let tat=completion-p.arrival
+let wt=tat-p.burst
 
-results.push({
-pid:p.pid,
-completion:completion,
-tat:tat,
-wt:wt
-})
+results.push({pid:p.pid,completion:completion,tat:tat,wt:wt})
 
-totalTat += tat
-totalWt += wt
+totalTat+=tat
+totalWt+=wt
 
 }
 
 }
 
-return {
-results:results,
-gantt:gantt,
-avgTat: totalTat / processes.length,
-avgWt: totalWt / processes.length
-}
+return {results,gantt,avgTat:totalTat/processes.length,avgWt:totalWt/processes.length}
 
 }
+
+/* ---------------- SINGLE MODE ---------------- */
 
 function run(){
 
@@ -385,20 +362,26 @@ let processes=getProcesses()
 
 let algo=document.getElementById("algorithm").value
 let quantum=parseInt(document.getElementById("quantum").value)
-
 let result
 
 if(algo==="fcfs") result=fcfs(processes)
-if(algo==="sjf") result=sjf(processes)
-if(algo==="priority") result=priorityScheduling(processes)
-else if(algo==="rr"){
 
-let policy = document.getElementById("rrPolicy").value
+else if(algo==="sjf") result=sjf(processes)
 
-result = roundRobin(processes, quantum, policy)
+else if(algo==="priority"){
+
+let type=document.getElementById("priorityType").value
+result=priorityScheduling(processes,type)
 
 }
-    
+
+else if(algo==="rr"){
+
+let policy=document.getElementById("rrPolicy").value
+result=roundRobin(processes,quantum,policy)
+
+}
+
 drawGantt(result.gantt)
 
 let table=document.getElementById("resultTable")
@@ -416,22 +399,24 @@ row.insertCell(3).innerText=r.wt
 
 })
 
-document.getElementById("avgTat").innerText="Average TAT: "+result.avgTat
-document.getElementById("avgWt").innerText="Average WT: "+result.avgWt
+document.getElementById("avgTat").innerText="Average TAT: "+result.avgTat.toFixed(2)
+document.getElementById("avgWt").innerText="Average WT: "+result.avgWt.toFixed(2)
 
 }
 
+/* ---------------- COMPARISON MODE ---------------- */
+
 function runComparison(){
 
-let processes=getProcesses()
-
-let checks=document.querySelectorAll('input[type="checkbox"]:checked')
-
-let container=document.getElementById("comparisonResults")
+let processes = getProcesses()
+let checks = document.querySelectorAll('input[type="checkbox"]:checked')
+let container = document.getElementById("comparisonResults")
 
 container.innerHTML=""
 
-let quantum=parseInt(document.getElementById("quantum").value)
+let quantum = parseInt(document.getElementById("quantum").value)
+
+let summary=[]   // store algorithm results
 
 checks.forEach(c=>{
 
@@ -440,23 +425,36 @@ let result
 
 if(algo==="fcfs") result=fcfs([...processes])
 if(algo==="sjf") result=sjf([...processes])
-if(algo==="priority") result=priorityScheduling([...processes])
-if(algo==="rr") result=roundRobin([...processes],quantum)
+if(algo==="priorityLow") result=priorityScheduling([...processes],"low")
+if(algo==="priorityHigh") result=priorityScheduling([...processes],"high")
+if(algo==="rr_fcfs") result=roundRobin([...processes],quantum,"fcfs")
+if(algo==="rr_sjf") result=roundRobin([...processes],quantum,"sjf")
+if(algo==="rr_srtf") result=roundRobin([...processes],quantum,"srtf")    
+if(algo==="rr_priorityLow") result=roundRobin([...processes],quantum,"priorityLow")
+if(algo==="rr_priorityHigh") result=roundRobin([...processes],quantum,"priorityHigh")
 
-let div=document.createElement("div")
-div.className="panel"
+/* show gantt chart */
 
-div.innerHTML="<h3>"+algo.toUpperCase()+"</h3>"
+/* show gantt chart */
 
-/* Gantt Chart */
+let div = document.createElement("div")
+div.className = "panel"
 
-let ganttDiv=document.createElement("div")
-ganttDiv.className="gantt-row"
+div.innerHTML = "<h3>" + algo.toUpperCase() + "</h3>"
 
-result.gantt.forEach(g=>{
+/* gantt row */
+
+let ganttDiv = document.createElement("div")
+ganttDiv.className = "gantt-row"
+
+/* timeline row */
+
+let timeDiv = document.createElement("div")
+timeDiv.className = "time-row"
+
+result.gantt.forEach((g,i)=>{
 
 let block=document.createElement("div")
-
 let duration=g.end-g.start
 
 block.className="gantt-block"
@@ -465,30 +463,27 @@ block.style.width=(duration*50)+"px"
 
 ganttDiv.appendChild(block)
 
+/* timeline numbers */
+
+let time=document.createElement("span")
+
+if(i==0){
+time.innerText=g.start
+timeDiv.appendChild(time)
+}
+
+let endTime=document.createElement("span")
+endTime.innerText=g.end
+endTime.style.marginLeft=(duration*50-10)+"px"
+
+timeDiv.appendChild(endTime)
+
 })
 
 div.appendChild(ganttDiv)
+div.appendChild(timeDiv)
 
-/* Results Table */
-
-let table=document.createElement("table")
-
-table.innerHTML="<tr><th>PID</th><th>Completion</th><th>TAT</th><th>WT</th></tr>"
-
-result.results.forEach(r=>{
-
-let row=table.insertRow()
-
-row.insertCell(0).innerText=r.pid
-row.insertCell(1).innerText=r.completion
-row.insertCell(2).innerText=r.tat
-row.insertCell(3).innerText=r.wt
-
-})
-
-div.appendChild(table)
-
-/* Average values */
+/* averages */
 
 let avg=document.createElement("p")
 
@@ -498,7 +493,60 @@ div.appendChild(avg)
 
 container.appendChild(div)
 
+/* save for summary table */
+
+summary.push({
+algorithm:algo.toUpperCase(),
+wt:result.avgWt,
+tat:result.avgTat
 })
+
+})
+
+/* ---------- FINAL COMPARISON TABLE ---------- */
+
+let table=document.createElement("table")
+
+table.innerHTML=`
+<tr>
+<th>Algorithm</th>
+<th>Avg WT</th>
+<th>Avg TAT</th>
+</tr>
+`
+
+let bestAlgo=summary[0]
+
+summary.forEach(r=>{
+
+if(r.wt < bestAlgo.wt){
+bestAlgo = r
+}
+
+let row=table.insertRow()
+
+row.insertCell(0).innerText=r.algorithm
+row.insertCell(1).innerText=r.wt.toFixed(2)
+row.insertCell(2).innerText=r.tat.toFixed(2)
+
+})
+
+container.appendChild(document.createElement("hr"))
+
+let title=document.createElement("h2")
+title.innerText="Final Comparison"
+container.appendChild(title)
+
+container.appendChild(table)
+
+/* ---------- BEST ALGORITHM ---------- */
+
+let best=document.createElement("h2")
+best.innerText="Best Scheduling Algorithm: "+bestAlgo.algorithm
+
+best.style.color="#22c55e"
+
+container.appendChild(best)
 
 }
 
