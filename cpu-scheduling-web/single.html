@@ -7,17 +7,37 @@
 </head>
 
 <body>
-
+<button onclick="goBack()" class="back-btn">⬅ Back</button>
 <h1>CPU Scheduling Simulator</h1>
 
-<div class="panel">
+<div class="input-row">
 
-<input id="pid" placeholder="PID">
-<input id="arrival" placeholder="Arrival Time">
-<input id="burst" placeholder="Burst Time">
-<input id="priority" placeholder="Priority">
+<div class="input-group">
+<label>PID</label>
+<input id="pid" placeholder="P1">
+</div>
 
+<div class="input-group">
+<label>Arrival Time</label>
+<input id="arrival" placeholder="0">
+</div>
+
+<div class="input-group">
+<label>Burst Time</label>
+<input id="burst" placeholder="5">
+</div>
+
+<div class="input-group">
+<label>Priority</label>
+<input id="priority" placeholder="1">
+</div>
+
+<div class="input-group">
+<label>&nbsp;</label>
 <button onclick="addProcess()">Add Process</button>
+</div>
+
+</div>
 
 <table id="processTable">
 
@@ -26,6 +46,7 @@
 <th>Arrival</th>
 <th>Burst</th>
 <th>Priority</th>
+<th>Action</th>
 </tr>
 
 </table>
